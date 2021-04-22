@@ -1,0 +1,27 @@
+{
+  "name": "asteroides",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "npm run development",
+    "development": "cross-env NODE_ENV=development node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "npm run development -- --watch",
+    "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "prod": "npm run production",
+    "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "\u001b[A\u001b[A\u001b[B\u001b[B\u001b[B\u001b[A\u001b[A\u001b[A\u001b[A\u001b[C\u001b[B\u001b[C\u001b[C\u001bindex.html)\u001b[B\u001b[B"
+  },
+  "author": "seda karadeniz",
+  "license": "ISC",
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "postcss": "^8.1.14"
+  },
+  "dependencies": {
+    "laravel-mix": "^6.0.18"
+  }
+}
