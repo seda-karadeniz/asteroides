@@ -1,41 +1,42 @@
-console.log('bonjour');
-const main = document.getElementById('asteroids');
-document.body.removeChild(main);
+import ship from './ship'
 
-const canvas = document.createElement('canvas');
-document.body.insertAdjacentElement('afterbegin', canvas);
+const main = {
+    mainElt: null,
+    canvasElt: null,
+    canvasEltDimensions : {
+        width: 640,
+        height: 480,
+    },
+    ctx: null,
 
-canvas.width = 640;
-canvas.height = 480;
+    init(){
+        this.mainElt = document.getElementById('asteroids');
+        document.body.removeChild(this.mainElt);
 
-const ctx = canvas.getContext('2d');
-ctx.strokeStyle = '#fff';
+        this.canvasElt = document.createElement('canvas');
+        document.body.insertAdjacentElement('afterbegin', this.canvasElt);
+        this.canvasElt.width = this.canvasEltDimensions.width;
+        this.canvasElt.height = this.canvasEltDimensions.height;
 
-const shipSize = 20;
-const asteroidSize = 20;
-const shipSpeedX = 1;
-let shipLocationX = canvas.width/2;
+        this.ctx = this.canvasElt.getContext('2d');
+        this.ctx.strokeStyle = '#fff';
 
-function shipUdate() {
-    shipLocationX += shipSpeedX;
-    if (shipLocationX > canvas.width + shipSize){
-        shipLocationX = -shipSize;
+        ship.init(this.canvasElt, this.ctx);
+        this.animate();
+
+    },
+    animate() {
+        window.requestAnimationFrame(() =>{
+            this.animate();
+        } ); /*demander au systeme de rappler la fonction animate lorsque lopportuneiter de fr le rendu sera de nouveau disponible a mettre au debut de lanimtaion
+     permet egalement de mettre en pause lanimation par exmple lorsque la personne est sur un autre onglet (economiser des resources*/
+        this.ctx.clearRect(0,0, this.canvasElt.width, this.canvasElt.height);
+        ship.update();
     }
-    shipDraw();
 }
+main.init();
 
-function shipDraw(){
-    ctx.save(); /*cree une sorte de pile est dans le restore enlever la pile  */
-    ctx.rotate(0);
-    ctx.translate(shipLocationX, canvas.height/2);
-    ctx.beginPath();
-    ctx.moveTo(0, -1.5 * shipSize/2);
-    ctx.lineTo( shipSize/2, 0.5 + ( shipSize *1.5 / 2));
-    ctx.lineTo( -shipSize/2, 0.5 + (shipSize *1.5 / 2));
-    ctx.closePath();
-    ctx.stroke();
-    ctx.restore();
-}
+const asteroidSize = 20;
 
 function asteroidDraw(){
     ctx.save();
@@ -44,16 +45,4 @@ function asteroidDraw(){
     ctx.strokeRect(-asteroidSize/2,-asteroidSize/2, asteroidSize, asteroidSize);
     ctx.restore();
 }
-
-
-animate();
-
-function animate() {
-    window.requestAnimationFrame(animate); /*demander au systeme de rappler la fonction animate lorsque lopportuneiter de fr le rendu sera de nouveau disponible a mettre au debut de lanimtaion
-     permet egalement de mettre en pause lanimation par exmple lorsque la personne est sur un autre onglet (economiser des resources*/
-    ctx.clearRect(0,0, canvas.width, canvas.height);
-    shipUdate();
-}
-
-
 
