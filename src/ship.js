@@ -1,5 +1,6 @@
 import controller from "./controller";
 import Vector from "./Vector";
+import Bullet from "./Bullet";
 
 const ship = {
     size: 20,
@@ -9,6 +10,9 @@ const ship = {
     acceleration: null,
     canvas: null,
     ctx: null,
+    bulletTimer: -1,
+    bulletTimerTreshold: 10,
+    bullets: [],
 
     init(canvasElt, ctx){
         controller.init();
@@ -24,9 +28,19 @@ const ship = {
             if (activeKey === 'ArrowUp'){
                 this.acceleration = Vector.fromAngle(this.heading);
                 this.speed.add(this.acceleration);
-            } else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft'){
+            }
+            else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft'){
                 this.updateHeading(controller.keys[activeKey]);
             }
+            else if(activeKey === ' ') {
+                this.bulletTimer++;
+                if (!(this.bulletTimer % this.bulletTimerTreshold)) /*sil vaut 0 = false vu quon vx liverse mettre not devant*/
+                    this.bullets.push(new Bullet());
+            }
+                else{
+                    this.bulletTimer = 0;
+                }
+
         })
         this.speed.multiply(0.95); /*a cahque iteration retire 5% de la vitesse, qd on lache la touche */
         this.location.add(this.speed);
