@@ -9,7 +9,7 @@ export default class Asteroid{
 
         if ( !parent){
             this.rotationSpeed = Math.random() /30;
-            this.size = 7+ Math.random() * 5;
+            this.size = 5 + Math.random() * 5;
             this.location = new Vector(Math.random() * this.canvas.width, Math.random() * this.canvas.height  );
         }
         else {
@@ -19,7 +19,7 @@ export default class Asteroid{
         }
         this.heading = Math.random() * Math.PI * 2;
         this.speed = new Vector(0,0);
-        this.acceleration = Vector.fromAngle(this.heading, 2 +Math.random() *2);
+        this.acceleration = Vector.fromAngle(this.heading, 0.5 +Math.random() *1.5);
         this.speed.add(this.acceleration);
         const asCount = asteroidShapes.length;
         const i = Math.floor(Math.random() * asCount);
