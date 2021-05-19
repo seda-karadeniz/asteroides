@@ -1,5 +1,6 @@
 import Vector from './Vector';
 import ship from './ship';
+import garbageManager from "./garbageManager";
 
 export default class Bullet {
     constructor() {
@@ -13,13 +14,27 @@ export default class Bullet {
     }
     update(){
         this.location.add(this.speed);
+        this.checkEdges();
+
+
         this.draw();
+    }
+    checkEdges(){
+        if (
+            (this.location.y > ship.canvas.height)||
+            (this.location.y < 0)||
+            (this.location.x > ship.canvas.width)||
+            (this.location.x < 0)
+        ){
+            garbageManager.remove(this, ship.bullets);
+            
+        }
     }
     draw(){
         this.ctx.save();
         this.ctx.translate(this.location.x, this.location.y);
         this.ctx.rotate(this.heading);
-        this.ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+        this.ctx.fillRect(-this.size/2, -this.size*3, this.size, this.size);
         this.ctx.restore();
     }
 }

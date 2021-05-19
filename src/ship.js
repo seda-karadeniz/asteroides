@@ -11,7 +11,7 @@ const ship = {
     canvas: null,
     ctx: null,
     bulletTimer: -1,
-    bulletTimerTreshold: 10,
+    bulletTimerTreshold: 5,
     bullets: [],
 
     init(canvasElt, ctx){
@@ -23,28 +23,34 @@ const ship = {
 
         },
 
-    update(){
-        controller.activeKeys.forEach((activeKey)=>{
-            if (activeKey === 'ArrowUp'){
+    checkKeys() {
+        controller.activeKeys.forEach((activeKey) => {
+            if (activeKey === 'ArrowUp') {
                 this.acceleration = Vector.fromAngle(this.heading);
                 this.speed.add(this.acceleration);
-            }
-            else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft'){
+            } else if (activeKey === 'ArrowRight' || activeKey === 'ArrowLeft') {
                 this.updateHeading(controller.keys[activeKey]);
-            }
-            else if(activeKey === ' ') {
+            } else if (activeKey === ' ') {
                 this.bulletTimer++;
                 if (!(this.bulletTimer % this.bulletTimerTreshold)) /*sil vaut 0 = false vu quon vx liverse mettre not devant*/
                     this.bullets.push(new Bullet());
+            } else {
+                this.bulletTimer = -1;
             }
-                else{
-                    this.bulletTimer = 0;
-                }
 
         })
+    }, update(){
+        this.checkKeys();
         this.speed.multiply(0.95); /*a cahque iteration retire 5% de la vitesse, qd on lache la touche */
         this.location.add(this.speed);
 
+
+        this.checkEdges();
+
+        this.draw();
+    },
+
+    checkEdges(){
 
         if (this.location.y > this.canvas.height + this.size){
             this.location.y = - this.size;
@@ -58,9 +64,8 @@ const ship = {
         if (this.location.x < -this.size){
             this.location.x = this.canvas.width + this.size;
         }
-
-        this.draw();
     },
+
     updateHeading(angle){
         this.heading += angle;
     },
