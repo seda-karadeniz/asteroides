@@ -7,7 +7,7 @@ export default class Asteroid{
         this.ctx = ctx;
         this.rotation = 0;
 
-        if (!parent){
+        if ( !parent){
             this.rotationSpeed = Math.random() /30;
             this.size = 7+ Math.random() * 5;
             this.location = new Vector(Math.random() * this.canvas.width, Math.random() * this.canvas.height  );
